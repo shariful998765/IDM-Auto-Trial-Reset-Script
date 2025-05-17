@@ -2,22 +2,22 @@
 setlocal
 
 :: Title
-title IDM Auto Trial Reset - Remover.
+title IDM Auto Trial Reset - Remover
 
+cls
 echo.====================================================
 echo     IDM Auto Reset Remover
 echo     Stops and removes auto-reset script
 echo.====================================================
 echo.
 
-:: Step 1: Stop running process
+:: Step 1: Stop running instance(s)
 echo [1/5] Stopping any running instances...
-tasklist | findstr /i "cmd.exe" >nul && (
-    for /f "tokens=2" %%a in ('tasklist ^| findstr /i "cmd.exe" ^| findstr /i "idm_reset"') do (
-        set pid=%%a
-        echo Found running process with PID=!pid!
-        taskkill /PID !pid! /F >nul 2>&1
-        echo Stopped process !pid!
+wmic process where "commandline like '%%%%idm_auto_trial_reset%%%%'" get ProcessId 2>nul | findstr [0-9] >nul && (
+    for /f "skip=1 tokens=1" %%a in ('wmic process where "commandline like '%%%%idm_auto_trial_reset%%%%'" get ProcessId') do (
+        echo Found running process with PID=%%a
+        taskkill /PID %%a /F >nul 2>&1
+        echo Stopped process %%a
     )
 ) || (
     echo No running instance found.
@@ -45,13 +45,23 @@ if exist "%markerFile%" (
     echo Marker file not found.
 )
 
-:: Step 4: Delete log file
+:: Step 4: Delete log file (from %temp% or current dir)
 echo.[4/5] Deleting log file...
-set "logFile=%~dp0%idm_auto_trial_reset.log"
-if exist "%logFile%" (
-    del /q "%logFile%" >nul 2>&1
-    echo Log file deleted.
-) else (
+
+set "logFileInTemp=%temp%\idm_reset.log"
+set "logFileInDir=%~dp0idm_auto_trial_reset.log"
+
+if exist "%logFileInTemp%" (
+    del /q "%logFileInTemp%" >nul 2>&1
+    echo Deleted log file from temp folder.
+)
+
+if exist "%logFileInDir%" (
+    del /q "%logFileInDir%" >nul 2>&1
+    echo Deleted log file from current directory.
+)
+
+if not exist "%logFileInTemp%" if not exist "%logFileInDir%" (
     echo Log file not found.
 )
 
