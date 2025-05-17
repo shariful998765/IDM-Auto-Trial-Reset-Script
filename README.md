@@ -1,8 +1,8 @@
 <h1 align="center">idm_auto_trial_reset</h1>
 
 <p align="center">
-<!-- 	<a href="https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script/releases"><img src="https://img.shields.io/github/v/release/shariful998765/IDM-Auto-Trial-Reset-Script?style=flat-square&include_prereleases&label=version" /></a> -->
-<!-- 	<a href="https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script/releases"><img src="https://img.shields.io/github/downloads/shariful998765/IDM-Auto-Trial-Reset-Script/total.svg?style=flat-square" /></a> -->
+	<a href="https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script/releases"><img src="https://img.shields.io/github/v/release/shariful998765/IDM-Auto-Trial-Reset-Script?style=flat-square&include_prereleases&label=version" /></a>
+	<a href="https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script/releases"><img src="https://img.shields.io/github/downloads/shariful998765/IDM-Auto-Trial-Reset-Script/total.svg?style=flat-square" /></a>
 	<a href="https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script/issues"><img src="https://img.shields.io/github/issues-raw/shariful998765/IDM-Auto-Trial-Reset-Script.svg?style=flat-square&label=issues" /></a>
 	<a href="https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script/graphs/contributors"><img src="https://img.shields.io/github/contributors/shariful998765/IDM-Auto-Trial-Reset-Script?style=flat-square" /></a>
 	<a href="https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script/blob/master/LICENSE"><img src="https://img.shields.io/github/license/shariful998765/IDM-Auto-Trial-Reset-Script?style=flat-square" /></a>
