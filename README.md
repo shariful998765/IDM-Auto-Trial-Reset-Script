@@ -1,11 +1,20 @@
-# IDM-Auto-Trial-Reset-Script
-IDM Auto Trial Reset Script that will auto delete registry for your.
+<h1 align="center">idm_auto_trial_reset</h1>
 
-# IDM Tools Suite
+<p align="center">
+<!-- 	<a href="https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script/releases"><img src="https://img.shields.io/github/v/release/shariful998765/IDM-Auto-Trial-Reset-Script?style=flat-square&include_prereleases&label=version" /></a> -->
+<!-- 	<a href="https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script/releases"><img src="https://img.shields.io/github/downloads/shariful998765/IDM-Auto-Trial-Reset-Script/total.svg?style=flat-square" /></a> -->
+	<a href="https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script/issues"><img src="https://img.shields.io/github/issues-raw/shariful998765/IDM-Auto-Trial-Reset-Script.svg?style=flat-square&label=issues" /></a>
+	<a href="https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script/graphs/contributors"><img src="https://img.shields.io/github/contributors/shariful998765/IDM-Auto-Trial-Reset-Script?style=flat-square" /></a>
+	<a href="https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script/blob/master/LICENSE"><img src="https://img.shields.io/github/license/shariful998765/IDM-Auto-Trial-Reset-Script?style=flat-square" /></a>
+</p>
+
+# IDM Script Suite
 
 This repository contains batch scripts designed to interact with **Internet Download Manager (IDM)** for testing and learning purposes only.
 
-## 🔧 Tools Included
+---
+
+## 🔧 Script Included
 
 ### 1. **IDM Auto Reset Script**
 Automatically resets the trial period of Internet Download Manager by:
@@ -22,6 +31,35 @@ A simple cleanup tool that:
 - Helps fully uninstall IDM without leftovers
 
 > ⚠️ These tools are meant for educational use, such as understanding how software licensing and system configuration work. They are not intended for bypassing software licenses or violating EULAs.
+
+---
+
+## 🧪 How to Use
+
+### ✅ For `idm_auto_trial_reset.bat`
+
+1. Double-click on `idm_auto_trial_reset.bat`
+2. The script will:
+   - Run in the background silently
+   - Automatically reset IDM trial when needed
+   - Add itself to Windows startup (only once)
+3. That's it — no further action required!
+
+> 🕒 The script resets the trial every 5 minutes if IDM is closed. Just let it run and IDM will always start as a fresh trial version.
+
+---
+
+### 🧹 For `idm_auto_trial_reset_remover.bat`
+
+If you no longer want the auto-reset behavior:
+
+1. Run `idm_auto_trial_reset_remover.bat` as Administrator
+2. It will:
+   - Stop the IDM process
+   - Remove all traces of IDM (registry + files)
+   - Remove the auto-reset script from startup
+
+> 💡 This is useful if you decide to buy IDM and want to clean up before installing the licensed version.
 
 ---
 
@@ -51,7 +89,7 @@ This project was created strictly for **educational and testing purposes**, to u
 
 If you find **Internet Download Manager useful**, please support its development by purchasing a legitimate license from the official website:
 
-🔗 [https://www.internetdownloadmanager.com ](https://www.internetdownloadmanager.com )
+🔗 [Internet Download Manager ](https://www.internetdownloadmanager.com )
 
 Buying the software ensures:
 - You receive updates and support
@@ -60,6 +98,6 @@ Buying the software ensures:
 
 ---
 
-## 📝 License
+## 📁 License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
