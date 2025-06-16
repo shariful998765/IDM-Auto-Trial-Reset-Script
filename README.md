@@ -1,4 +1,4 @@
-<h1 align="center">idm_auto_trial_reset</h1>
+<h1 align="center">Completely Auto Reset IDM Registry with Support Custom Background Intervals</h1>
 
 <p align="center">
 	<a href="https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script/releases"><img src="https://img.shields.io/github/v/release/shariful998765/IDM-Auto-Trial-Reset-Script?style=flat-square&include_prereleases&label=version" /></a>
@@ -16,35 +16,6 @@ This repository contains batch scripts designed to interact with **Internet Down
 
 ## 🔧 Script Included
 
-### 1. **IDM Auto Reset Tool**
-Completely Auto Reset IDM Registry or Auto Reset Trail Period
-- Deleting registry entries related to license/trial tracking
-- Removing AppData configurations
-- Running silently in the background
-- Adding itself to startup for persistent execution
-
-### 2. **IDM Remover Script**
-A simple cleanup tool that:
-- Stops any running IDM process
-- Deletes registry keys associated with IDM
-- Removes IDM folders from AppData
-- Helps fully uninstall IDM without leftovers
-
-> ⚠️ These tools are meant for educational use, such as understanding how software licensing and system configuration work. They are not intended for bypassing software licenses or violating EULAs.
-
----
-
-## 🧪 How to Use
-
-### ✅ For `idm_auto_trial_reset.bat`
-
-1. Double-click on `idm_auto_trial_reset.bat`
-2. The script will:
-   - Run in the background silently
-   - Automatically reset IDM trial when needed
-   - Add itself to Windows startup (only once)
-3. That's it — no further action required!
-
 ## 🎯 Features
 
 - ✅ Supports custom reset intervals:
@@ -59,6 +30,25 @@ A simple cleanup tool that:
 - ✅ Optional: Restart IDM after reset
 - ✅ Visual notification (Balloon Tip)
 > 💡 This is useful if you decide to buy IDM and want to clean up before installing the licensed version.
+
+
+> ⚠️ These tools are meant for educational use, such as understanding how software licensing and system configuration work. They are not intended for bypassing software licenses or violating EULAs.
+
+---
+
+## 🧪 How to Use
+
+### ✅ For `idm_auto_trial_reset.bat`
+
+1. Double-click on `idm_auto_trial_reset.bat` it will ask administrative privileges.
+2. The script will:
+   
+![image](https://github.com/user-attachments/assets/d14ade1b-2351-4670-ab20-c07f76c87732)
+
+   - Select which number you want and hit enter
+4. That's it
+
+
 
 ---
 
