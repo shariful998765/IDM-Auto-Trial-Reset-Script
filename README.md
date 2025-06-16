@@ -8,7 +8,7 @@
 	<a href="https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script/blob/master/LICENSE"><img src="https://img.shields.io/github/license/shariful998765/IDM-Auto-Trial-Reset-Script?style=flat-square" /></a>
 </p>
 
-# IDM Script Suite
+# IDM Auto Reset Tool
 
 This repository contains batch scripts designed to interact with **Internet Download Manager (IDM)** for testing and learning purposes only.
 
@@ -16,8 +16,8 @@ This repository contains batch scripts designed to interact with **Internet Down
 
 ## 🔧 Script Included
 
-### 1. **IDM Auto Reset Script**
-Automatically resets the trial period of Internet Download Manager by:
+### 1. **IDM Auto Reset Tool**
+Completely Auto Reset IDM Registry or Auto Reset Trail Period
 - Deleting registry entries related to license/trial tracking
 - Removing AppData configurations
 - Running silently in the background
@@ -45,20 +45,19 @@ A simple cleanup tool that:
    - Add itself to Windows startup (only once)
 3. That's it — no further action required!
 
-> 🕒 The script resets the trial every 5 minutes if IDM is closed. Just let it run and IDM will always start as a fresh trial version.
+## 🎯 Features
 
----
-
-### 🧹 For `idm_auto_trial_reset_remover.bat`
-
-If you no longer want the auto-reset behavior:
-
-1. Run `idm_auto_trial_reset_remover.bat` as Administrator
-2. It will:
-   - Stop the IDM process
-   - Remove all traces of IDM (registry + files)
-   - Remove the auto-reset script from startup
-
+- ✅ Supports custom reset intervals:
+  - Every 24 hours
+  - Every 7 days
+  - Every 15 days
+  - Every 30 days
+- ✅ Manual reset option (`idm_auto_reset.bat RESETNOW`)
+- ✅ Silent background operation (`SILENT` mode)
+- ✅ Adds itself to Task Scheduler (optional)
+- ✅ Clean logging with timestamps
+- ✅ Optional: Restart IDM after reset
+- ✅ Visual notification (Balloon Tip)
 > 💡 This is useful if you decide to buy IDM and want to clean up before installing the licensed version.
 
 ---
