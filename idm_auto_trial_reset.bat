@@ -4,6 +4,7 @@ setlocal enabledelayedexpansion
 :: Set console mode for better UI
 mode 85,22
 
+
 :: ANSI color codes
 set "black=[30m"
 set "red=[31m"
@@ -14,7 +15,7 @@ set "cyan=[36m"
 set "reset=[0m"
 
 :: Script metadata
-set "version=2.6"
+set "version=2.7"
 set "scriptName=IDM Auto Reset Tool"
 set "author=Sharif"
 set "username=%USERNAME%"
@@ -23,37 +24,78 @@ set "hostname=%COMPUTERNAME%"
 :: thanks to ai, a lot of support got from ai
 
 :: Paths
-::set "logFile=%~dp0%idm_reset_manual.log"
 set "logFile=%temp%\idm_reset_manual.log"
-::set "markerFile=%~dp0%idm_reset_marker"
 set "markerFile=%temp%\idm_reset_marker"
+:: Alternative paths, if you need rem above paths.
+::set "logFile=%~dp0%idm_reset_manual.log"
+::set "markerFile=%~dp0%idm_reset_marker"
 
-:: Define CLSIDs once
-set CLSID_LIST=^
-    {7B8E9164-324D-4A2E-A46D-0165FB2000EC} ^
-    {6DDF00DB-1234-46EC-8356-27E7B2051192} ^
-    {D5B91409-A8CA-4973-9A0B-59F713D25671} ^
-    {5ED60779-4DE2-4E07-B862-974CA4FF2E9C} ^
-    {07999AC3-058B-40BF-984F-69EB1E554CA7} ^
-    {E8CF4E59-B7A3-41F2-86C7-82B03334F22A} ^
-    {9C9D53D4-A978-43FC-93E2-1C21B529E6D7} ^
-    {79873CC5-3951-43ED-BDF9-D8759474B6FD} ^
-    {E6871B76-C3C8-44DD-B947-ABFFE144860D}
-
-:: Registry root list
-set ROOT_LIST=HKCU HKLM HKU\.DEFAULT
-set NODE_LIST="" "Wow6432Node"
-
-:: Additional IDM-specific paths
-set IDM_PATHS=^
+:: Define all registry keys to delete in one comprehensive list
+set RegkeysToDelete=^
     "HKCU\Software\Download Manager" ^
     "HKCU\Software\Wow6432Node\Download Manager" ^
+    "HKCU\Software\Classes\CLSID\{7B8E9164-324D-4A2E-A46D-0165FB2000EC}" ^
+    "HKCU\Software\Classes\CLSID\{6DDF00DB-1234-46EC-8356-27E7B2051192}" ^
+    "HKCU\Software\Classes\CLSID\{D5B91409-A8CA-4973-9A0B-59F713D25671}" ^
+    "HKCU\Software\Classes\CLSID\{5ED60779-4DE2-4E07-B862-974CA4FF2E9C}" ^
+    "HKCU\Software\Classes\CLSID\{07999AC3-058B-40BF-984F-69EB1E554CA7}" ^
+    "HKCU\Software\Classes\CLSID\{E8CF4E59-B7A3-41F2-86C7-82B03334F22A}" ^
+    "HKCU\Software\Classes\CLSID\{9C9D53D4-A978-43FC-93E2-1C21B529E6D7}" ^
+    "HKCU\Software\Classes\CLSID\{79873CC5-3951-43ED-BDF9-D8759474B6FD}" ^
+    "HKCU\Software\Classes\CLSID\{E6871B76-C3C8-44DD-B947-ABFFE144860D}" ^
+    "HKCU\Software\Classes\Wow6432Node\CLSID\{7B8E9164-324D-4A2E-A46D-0165FB2000EC}" ^
+    "HKCU\Software\Classes\Wow6432Node\CLSID\{6DDF00DB-1234-46EC-8356-27E7B2051192}" ^
+    "HKCU\Software\Classes\Wow6432Node\CLSID\{D5B91409-A8CA-4973-9A0B-59F713D25671}" ^
+    "HKCU\Software\Classes\Wow6432Node\CLSID\{5ED60779-4DE2-4E07-B862-974CA4FF2E9C}" ^
+    "HKCU\Software\Classes\Wow6432Node\CLSID\{07999AC3-058B-40BF-984F-69EB1E554CA7}" ^
+    "HKCU\Software\Classes\Wow6432Node\CLSID\{E8CF4E59-B7A3-41F2-86C7-82B03334F22A}" ^
+    "HKCU\Software\Classes\Wow6432Node\CLSID\{9C9D53D4-A978-43FC-93E2-1C21B529E6D7}" ^
+    "HKCU\Software\Classes\Wow6432Node\CLSID\{79873CC5-3951-43ED-BDF9-D8759474B6FD}" ^
+    "HKCU\Software\Classes\Wow6432Node\CLSID\{E6871B76-C3C8-44DD-B947-ABFFE144860D}" ^
+    "HKU\.DEFAULT\Software\Download Manager" ^
+    "HKU\.DEFAULT\Software\Wow6432Node\Download Manager" ^
+    "HKU\.DEFAULT\Software\Classes\CLSID\{7B8E9164-324D-4A2E-A46D-0165FB2000EC}" ^
+    "HKU\.DEFAULT\Software\Classes\CLSID\{6DDF00DB-1234-46EC-8356-27E7B2051192}" ^
+    "HKU\.DEFAULT\Software\Classes\CLSID\{D5B91409-A8CA-4973-9A0B-59F713D25671}" ^
+    "HKU\.DEFAULT\Software\Classes\CLSID\{5ED60779-4DE2-4E07-B862-974CA4FF2E9C}" ^
+    "HKU\.DEFAULT\Software\Classes\CLSID\{07999AC3-058B-40BF-984F-69EB1E554CA7}" ^
+    "HKU\.DEFAULT\Software\Classes\CLSID\{E8CF4E59-B7A3-41F2-86C7-82B03334F22A}" ^
+    "HKU\.DEFAULT\Software\Classes\CLSID\{9C9D53D4-A978-43FC-93E2-1C21B529E6D7}" ^
+    "HKU\.DEFAULT\Software\Classes\CLSID\{79873CC5-3951-43ED-BDF9-D8759474B6FD}" ^
+    "HKU\.DEFAULT\Software\Classes\CLSID\{E6871B76-C3C8-44DD-B947-ABFFE144860D}" ^
+    "HKU\.DEFAULT\Software\Classes\Wow6432Node\CLSID\{7B8E9164-324D-4A2E-A46D-0165FB2000EC}" ^
+    "HKU\.DEFAULT\Software\Classes\Wow6432Node\CLSID\{6DDF00DB-1234-46EC-8356-27E7B2051192}" ^
+    "HKU\.DEFAULT\Software\Classes\Wow6432Node\CLSID\{D5B91409-A8CA-4973-9A0B-59F713D25671}" ^
+    "HKU\.DEFAULT\Software\Classes\Wow6432Node\CLSID\{5ED60779-4DE2-4E07-B862-974CA4FF2E9C}" ^
+    "HKU\.DEFAULT\Software\Classes\Wow6432Node\CLSID\{07999AC3-058B-40BF-984F-69EB1E554CA7}" ^
+    "HKU\.DEFAULT\Software\Classes\Wow6432Node\CLSID\{E8CF4E59-B7A3-41F2-86C7-82B03334F22A}" ^
+    "HKU\.DEFAULT\Software\Classes\Wow6432Node\CLSID\{9C9D53D4-A978-43FC-93E2-1C21B529E6D7}" ^
+    "HKU\.DEFAULT\Software\Classes\Wow6432Node\CLSID\{79873CC5-3951-43ED-BDF9-D8759474B6FD}" ^
+    "HKU\.DEFAULT\Software\Classes\Wow6432Node\CLSID\{E6871B76-C3C8-44DD-B947-ABFFE144860D}" ^
     "HKLM\Software\Internet Download Manager" ^
-    "HKLM\Software\Wow6432Node\Internet Download Manager"
-
+    "HKLM\Software\Wow6432Node\Internet Download Manager" ^
+    "HKLM\Software\Classes\CLSID\{7B8E9164-324D-4A2E-A46D-0165FB2000EC}" ^
+    "HKLM\Software\Classes\CLSID\{6DDF00DB-1234-46EC-8356-27E7B2051192}" ^
+    "HKLM\Software\Classes\CLSID\{D5B91409-A8CA-4973-9A0B-59F713D25671}" ^
+    "HKLM\Software\Classes\CLSID\{5ED60779-4DE2-4E07-B862-974CA4FF2E9C}" ^
+    "HKLM\Software\Classes\CLSID\{07999AC3-058B-40BF-984F-69EB1E554CA7}" ^
+    "HKLM\Software\Classes\CLSID\{E8CF4E59-B7A3-41F2-86C7-82B03334F22A}" ^
+    "HKLM\Software\Classes\CLSID\{9C9D53D4-A978-43FC-93E2-1C21B529E6D7}" ^
+    "HKLM\Software\Classes\CLSID\{79873CC5-3951-43ED-BDF9-D8759474B6FD}" ^
+    "HKLM\Software\Classes\CLSID\{E6871B76-C3C8-44DD-B947-ABFFE144860D}" ^
+    "HKLM\Software\Classes\Wow6432Node\CLSID\{7B8E9164-324D-4A2E-A46D-0165FB2000EC}" ^
+    "HKLM\Software\Classes\Wow6432Node\CLSID\{6DDF00DB-1234-46EC-8356-27E7B2051192}" ^
+    "HKLM\Software\Classes\Wow6432Node\CLSID\{D5B91409-A8CA-4973-9A0B-59F713D25671}" ^
+    "HKLM\Software\Classes\Wow6432Node\CLSID\{5ED60779-4DE2-4E07-B862-974CA4FF2E9C}" ^
+    "HKLM\Software\Classes\Wow6432Node\CLSID\{07999AC3-058B-40BF-984F-69EB1E554CA7}" ^
+    "HKLM\Software\Classes\Wow6432Node\CLSID\{E8CF4E59-B7A3-41F2-86C7-82B03334F22A}" ^
+    "HKLM\Software\Classes\Wow6432Node\CLSID\{9C9D53D4-A978-43FC-93E2-1C21B529E6D7}" ^
+    "HKLM\Software\Classes\Wow6432Node\CLSID\{79873CC5-3951-43ED-BDF9-D8759474B6FD}" ^
+    "HKLM\Software\Classes\Wow6432Node\CLSID\{E6871B76-C3C8-44DD-B947-ABFFE144860D}"
 
 :: Check if already running in silent mode
 if /i "%~1"=="SILENT" goto MAIN_PROCESS
+
 
 
 cls
@@ -85,7 +127,8 @@ if not exist "%ProgramFiles(x86)%\Internet Download Manager\IDMan.exe" (
 )
 
 :: Title
-title Completely Auto Reset IDM Registry (Auto Trail Reset) v%version%
+title Completely Auto Reset IDM Registry or Auto Reset Trail Period v%version%
+
 
 :: User Configuration Prompt
 cls
@@ -93,8 +136,7 @@ echo.
 echo   %blue%==========================================================================%reset%
 echo      %green%Completely Auto Reset IDM Registry with Custom Background Intervals%reset%
 echo                        %yellow%Version %version%%reset%
-echo                  %cyan%Now Supports Custom Intervals%reset%
-echo     %cyan%https://github.com/shariful998765/IDM-Auto-Trial-Reset-Script.git%reset%
+echo     %cyan%https://github.com/shariful998765/IDM_Auto_Reg_Reset_Tools_Script.git%reset%
 echo     %yellow%See LOGS: %logFile%%reset%
 echo   %blue%==========================================================================%reset%
 echo.
@@ -119,8 +161,10 @@ if /i "!intervalChoice!"=="6" (
     :: Remove scheduled task
     schtasks /query /tn "IDM Auto Reset" >nul 2>&1 && (
         schtasks /delete /tn "IDM Auto Reset" /f >nul 2>&1
+        echo [%logDate%] Scheduled task removed >> "%logFile%"
         echo %green%Successfully removed scheduled task.%reset%
     ) || (
+        echo [%logDate%] No scheduled task found >> "%logFile%"
         echo %yellow%No scheduled task found.%reset%
     )
 
@@ -142,14 +186,31 @@ if /i "!intervalChoice!"=="6" (
     )
 
     echo.
+    echo Cleanup complete. IDM auto-reset has been fully removed. >> "%logFile%"
     echo %green%Cleanup complete. IDM auto-reset has been fully removed.%reset%
     timeout /t 5 >nul
     exit /b
 )
 
+
+:: Get precise timestamp (with milliseconds removal if present)
+for /f "delims=" %%A in ('powershell -NoProfile -Command "Get-Date -Format \"yyyy-MM-dd HH:mm:ss\""') do (
+    set "logDate=%%A"
+)
+
+:: Fallback to system date/time if PowerShell fails
+if not defined logDate (
+    for /f "tokens=1-4 delims=/ " %%A in ("%date%") do (
+        for /f "tokens=1-2 delims=:" %%X in ("%time%") do (
+            set "logDate=%%D-%%B-%%A %%X:%%Y:00"
+        )
+    )
+)
+
+
 :: Map user input to seconds + schedule type
 if /i "!intervalChoice!"=="1" (
-    echo [%date% %time%] Manual reset triggered >> "%logFile%"
+    echo [%date% %time%] Manual reset triggered >>"%logFile%"
     echo    %green%Manual reset selected. Running now...%reset%
     goto MAIN_PROCESS
 )
@@ -224,6 +285,7 @@ if errorlevel 1 (
         echo %red%[!] Failed to create scheduled task. Try running as Administrator.%reset%
     ) else (
         echo %green%Added to Task Scheduler ^(runs every !scheduleMod! !scheduleType! at !scheduleTime!^).%reset%
+        echo Added to Task Scheduler ^(runs every !scheduleMod! !scheduleType! at !scheduleTime!^) >> "%logFile%"
     )
 )
 
@@ -236,6 +298,7 @@ echo.
 echo Next scheduled reset: !nextResetFormatted!
 echo %green%Setup complete! This script will now run automatically every !scheduleMod! !scheduleType!(s).%reset%
 echo %blue%You may close this window now.%reset%
+
 timeout /t 5 >nul
 exit /b
 
@@ -244,18 +307,6 @@ exit /b
 :: MAIN PROCESS
 :: =============
 :MAIN_PROCESS
-
-:: Get clean log timestamp using PowerShell
-set "logDate="
-for /f "tokens=*" %%T in ('powershell -command "Get-Date -Format yyyy-MM-dd HH:mm:ss"') do set "logDate=%%T"
-
-if defined logDate (
-    for /f "tokens=1 delims=." %%a in ("!logDate!") do set "logDate=%%a"
-)
-
-:: Backup fallback if timestamp fails
-if not defined logDate set "logDate=%date% %time%"
-
 
 :: Start logging to file
 echo Script Name: %scriptName% >> "%logFile%"
@@ -286,55 +337,27 @@ if exist "%APPDATA%\IDM" (
     echo [%logDate%] Folder not found: %APPDATA%\IDM >> "%logFile%"
 )
 
-:: Log start
+
+:: Starting registry cleanup
+set /a totalDeleted=0
 echo [%logDate%] Starting registry cleanup... >> "%logFile%"
 
-:: Loop through each root and delete registry keys
-for %%R in (%ROOT_LIST%) do (
-    set /a deleted=0
-    echo [%logDate%] Checking %%R CLSID keys... >> "%logFile%"
-    for %%C in (%CLSID_LIST%) do (
-        for %%N in (%NODE_LIST%) do (
-            if "%%N"=="" (
-                set "fullKey=%%R\Software\Classes\CLSID\%%C"
-            ) else (
-                set "fullKey=%%R\Software\Classes\%%N\CLSID\%%C"
-            )
-            reg query !fullKey! >nul 2>&1 && (
-                echo [%logDate%] Found key: !fullKey! >> "%logFile%"
-                reg delete "!fullKey!" /f >nul 2>&1
-                if !errorlevel! == 0 (
-                    set /a deleted+=1
-                    echo [%logDate%] Deleted key: !fullKey! >> "%logFile%"
-                ) else (
-                    echo [%logDate%] FAILED to delete key: !fullKey! >> "%logFile%"
-                )
-            ) || (
-                echo [%logDate%] Key not found: !fullKey! >> "%logFile%"
-            )
-        )
-    )
-    echo [%logDate%] Total %%R CLSID keys deleted: !deleted! >> "%logFile%"
-)
-
-:: Delete IDM-specific keys
-set /a idmDeleted=0
-echo [%logDate%] Checking IDM registry paths... >> "%logFile%"
-for %%I in (%IDM_PATHS%) do (
-    reg query %%I >nul 2>&1 && (
-        echo [%logDate%] Found IDM key: %%I >> "%logFile%"
-        reg delete %%I /f >nul 2>&1
-        if !errorlevel! == 0 (
-            set /a idmDeleted+=1
-            echo [%logDate%] Deleted IDM key: %%I >> "%logFile%"
+for %%K in (%RegkeysToDelete%) do (
+    reg query %%K >nul 2>&1 && (
+        echo [%logDate%] Found key: %%K >> "%logFile%"
+        reg delete %%K /f >nul 2>&1
+        if !errorlevel! equ 0 (
+            set /a totalDeleted+=1
+            echo [%logDate%] Deleted key: %%K >> "%logFile%"
         ) else (
-            echo [%logDate%] FAILED to delete IDM key: %%I >> "%logFile%"
+            echo [%logDate%] FAILED to delete key: %%K >> "%logFile%"
         )
     ) || (
-        echo [%logDate%] Key not found: %%I >> "%logFile%"
+        echo [%logDate%] Key not found: %%K >> "%logFile%"
     )
 )
-echo [%logDate%] Total IDM-specific keys deleted: !idmDeleted! >> "%logFile%"
+
+echo [%logDate%] Total registry keys deleted: !totalDeleted! >> "%logFile%"
 
 :: Create marker file
 echo [%logDate%] Creating marker file at: %markerFile% >> "%logFile%"
@@ -346,7 +369,7 @@ set "idmPath=%ProgramFiles%\Internet Download Manager\IDMan.exe"
 
 echo [%logDate%] Attempting to restart Internet Download Manager >> "%logFile%"
 
-:: Try Program Files path
+::Try Program Files path
 if exist "!idmPath!" (
     echo [%logDate%] Starting IDM from: !idmPath! >> "%logFile%"
     start "" "!idmPath!" && set idmStarted=1
@@ -354,7 +377,7 @@ if exist "!idmPath!" (
     echo [%logDate%] IDMan.exe NOT FOUND in: !idmPath! >> "%logFile%"
 )
 
-:: If not started yet, try Program Files (x86)
+::If not started yet, try Program Files (x86)
 if "!idmStarted!"=="0" (
     set "idmPath=%ProgramFiles(x86)%\Internet Download Manager\IDMan.exe"
     if exist "!idmPath!" (
@@ -364,6 +387,7 @@ if "!idmStarted!"=="0" (
         echo [%logDate%] IDMan.exe NOT FOUND in: !idmPath! >> "%logFile%"
     )
 )
+
 
 :: Final result
 if "!idmStarted!"=="1" (
@@ -375,9 +399,9 @@ if "!idmStarted!"=="1" (
 :: Notification (fixed!)
 set "notifyMessage="
 if "!idmStarted!"=="1" (
-    set "notifyMessage=IDM has been reset and restarted!"
+    set "notifyMessage=IDM has been reset and restarted!."
 ) else (
-    set "notifyMessage=Reset completed, but IDM was not restarted."
+    set "notifyMessage=Reset completed, Please Restart IDM."
 )
 
 :: Show balloon notification only if GUI available
@@ -436,7 +460,7 @@ endlocal & set "%1=%output%" & exit /b
 :GET_TIME_INPUT
 set /p %1=Enter preferred reset time (HH:MM): 
 echo "%~1" | findstr /r "^\"[01][0-9]:[0-5][0-9]\"$" >nul || (
-    echo %red%Invalid time format. Use HH:MM (e.g., 02:00 or 14:00).%reset%
+    echo %red%Invalid time format. Use HH:MM (e.g., 02:00).%reset%
     goto GET_TIME_INPUT
 )
 exit /b
